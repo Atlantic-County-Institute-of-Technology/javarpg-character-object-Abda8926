@@ -108,4 +108,11 @@ public class Dice {
             return sides;
         }
     }
+    public void sortDice() {
+        Collections.sort(dice, new Comparator<Die>() {
+            public int compare(Die d1, Die d2) {
+                return Integer.compare(d1.getValue(), d2.getValue());
+            }
+        }
+    ;}
 }
