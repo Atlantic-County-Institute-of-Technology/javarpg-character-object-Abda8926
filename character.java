@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class character {
-    Scanner scan = new Scanner(System.in);
+
     private String name;
     private String charType;
     private int level;
@@ -15,17 +15,6 @@ public class character {
     private int CHA;
     public Dice dice = new Dice();
 
-    public String Getclass(){
-        System.out.println("Choose your class! (Melee, Range, Magic)");
-        String Class = scan.nextLine();
-        return Class;
-    }
-
-    public String getName(){
-        System.out.println("Choose your name!");
-        String Name = scan.nextLine();
-        return Name;
-    }
 
     public character(String name, String charType, int level) {
         this.name = name;
@@ -40,6 +29,7 @@ public class character {
         this.WIS = 10;
         this.CHA = 10;
     }
+
 
     public int getAbilityModifier(int abScore){
         return (abScore - 10) / 2 ;
@@ -67,14 +57,38 @@ public class character {
     public void calculateArmorClass(){
         armorClass = 20 + getAbilityModifier(getPrimaryAbilityModifier());
     }
-    public rollStat(){
+
+    public int rollStat(){
         dice.addDice(4, 6);
         dice.rollAll();
-
-
+        dice.sortDice();
+        dice.removeDie(0);
+        int val = dice.getAllValues();
+        dice.clear();
+        return val;
     }
+
+    public void rollStats(){
+        STR = rollStat();
+        DEX = rollStat();
+        CON = rollStat();
+        INT = rollStat();
+        WIS = rollStat();
+        CHA = rollStat();
+        calculateArmorClass();
+        calculateBaseHitPoints();
+    }
+
+
     public boolean isAlive(){
         return hitPoints > 0;
     }
 
+    public String toString(){
+        String chara = name.toUpperCase() + " " + "(Level " + level +" " + charType +")\n";
+        chara += "HP: " + hitPoints + " | AC: " + armorClass + "\n";
+        chara += "STR: " + STR + " | DEX: " + DEX + " | CON: " + CON +"\n";
+        chara += "INT: " + INT + " | WIS: " + WIS + " | CHA: " + CHA;
+        return chara;
+    }
 }
